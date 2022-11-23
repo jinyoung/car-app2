@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func RouteInit() *echo.Echo {
+func RouteInit() *echo.Echo {  // Spring MVC REST API Controller
 	e := echo.New()
 	e.GET("/healthcheck", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, "ok")

@@ -57,26 +57,26 @@ public class PolicyStatusViewHandler {
             e.printStackTrace();
         }
     }
-    @StreamListener(KafkaProcessor.INPUT)
-    public void whenPolicyDenied_then_UPDATE_2(@Payload PolicyDenied policyDenied) {
-        try {
-            if (!policyDenied.validate()) return;
-                // view 객체 조회
-            Optional<PolicyStatus> policyStatusOptional = policyStatusRepository.findById(policyDenied.getPolicyApplicationId());
+    // @StreamListener(KafkaProcessor.INPUT)
+    // public void whenPolicyDenied_then_UPDATE_2(@Payload PolicyDenied policyDenied) {
+    //     try {
+    //         if (!policyDenied.validate()) return;
+    //             // view 객체 조회
+    //         Optional<PolicyStatus> policyStatusOptional = policyStatusRepository.findById(policyDenied.getPolicyApplicationId());
 
-            if( policyStatusOptional.isPresent()) {
-                 PolicyStatus policyStatus = policyStatusOptional.get();
-            // view 객체에 이벤트의 eventDirectValue 를 set 함
-                policyStatus.setStatus("Denied");    
-                // view 레파지 토리에 save
-                 policyStatusRepository.save(policyStatus);
-                }
+    //         if( policyStatusOptional.isPresent()) {
+    //              PolicyStatus policyStatus = policyStatusOptional.get();
+    //         // view 객체에 이벤트의 eventDirectValue 를 set 함
+    //             policyStatus.setStatus("Denied");    
+    //             // view 레파지 토리에 save
+    //              policyStatusRepository.save(policyStatus);
+    //             }
 
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+    //     }catch (Exception e){
+    //         e.printStackTrace();
+    //     }
+    // }
 
 
 }

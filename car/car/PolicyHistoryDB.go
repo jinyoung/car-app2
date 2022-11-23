@@ -1,22 +1,24 @@
 package car
+
 import (
+	"log"
+
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"log"
 )
 
-type PolicyHistoryDB struct{
+type PolicyHistoryDB struct {
 	db *gorm.DB
 }
 
-var policyHistoryrepository *PolicyHistoryDB
+var policyHistoryrepository *PolicyHistoryDB //TODO: PolicyHistoryRepository
 
 func PolicyHistoryDBInit() {
 	var err error
 	policyHistoryrepository = &PolicyHistoryDB{}
 	policyHistoryrepository.db, err = gorm.Open(sqlite.Open("PolicyHistory_table.db"), &gorm.Config{})
-	
+
 	if err != nil {
 		panic("DB Connection Error")
 	}
@@ -28,8 +30,8 @@ func PolicyHistoryRepository() *PolicyHistoryDB {
 	return policyHistoryrepository
 }
 
-func (self *PolicyHistoryDB)save(entity interface{}) error {
-	
+func (self *PolicyHistoryDB) save(entity interface{}) error { //TODO: ?? interface{}
+
 	tx := self.db.Create(entity)
 
 	if tx.Error != nil {
@@ -39,15 +41,15 @@ func (self *PolicyHistoryDB)save(entity interface{}) error {
 	return nil
 }
 
-func (self *PolicyHistoryDB)GetList() []PolicyHistory{
-	
+func (self *PolicyHistoryDB) GetList() []PolicyHistory { //TODO: findAll
+
 	entities := []PolicyHistory{}
 	self.db.Find(&entities)
 
 	return entities
 }
 
-func (self *PolicyHistoryDB)FindById(id int) (*PolicyHistory, error){
+func (self *PolicyHistoryDB) FindById(id int) (*PolicyHistory, error) {
 	entity := &PolicyHistory{}
 	txDb := self.db.Where("id = ?", id)
 	if txDb.Error != nil {
@@ -61,12 +63,12 @@ func (self *PolicyHistoryDB)FindById(id int) (*PolicyHistory, error){
 	}
 }
 
-func (self *PolicyHistoryDB) Delete(entity *PolicyHistory) error{
+func (self *PolicyHistoryDB) Delete(entity *PolicyHistory) error {
 	err2 := self.db.Delete(&entity).Error
 	return err2
 }
 
-func (self *PolicyHistoryDB) Update(id int, params map[string]string) (*PolicyHistory, error){
+func (self *PolicyHistoryDB) Update(id int, params map[string]string) (*PolicyHistory, error) { //TODO: attribute dirty flag check 을 안하는? goorm
 	entity := &PolicyHistory{}
 	txDb := self.db.Where("id = ?", id)
 	if txDb.Error != nil {
